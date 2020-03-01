@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Carbon\Carbon;
+// Eloquentを使用します
+use Illuminate\Database\Eloquent\Model;
+
+class Contact extends Model
+{
+    protected $guarded = ['id'];
+
+    // テーブルにはない独自の属性を追加することもできます
+    public function getPathAttribute(): string
+    {
+        return asset("/contact/$this->id");
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->last_name.' '.$this->first_name;
+    }
+
+    public function getBirthdayAttribute($value) {
+        return $value ? Carbon::parse($value)->format('Y-m-d') : null;
+    }
+}
